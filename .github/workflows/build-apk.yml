@@ -1,0 +1,58 @@
+name: Build Android APK (Enterprise Pipeline)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  production-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 1. Checkout Repository Source Code
+      uses: actions/checkout@v4
+
+    - name: 2. Set up Java Development Kit (JDK 17)
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: 3. Set up Node.js Environment
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: 4. Install Core Application Dependencies
+      run: |
+        npm install
+        npm install @capacitor/cli @capacitor/core @capacitor/android
+
+    - name: 5. Construct & Verify Capacitor Config
+      run: |
+        npx cap init "المنصة التعليمية الذكية" "com.aeic.teacher.app" --web-dir=www || true
+        npx cap add android || true
+
+    - name: 6. Sync Web Assets Into Android Native Project
+      run: |
+        npx cap sync android
+
+    - name: 7. Set up Android SDK Operations Environment
+      uses: android-actions/setup-android@v3
+
+    - name: 8. Grant Execution Permission for Gradle Wrapper
+      run: chmod +x android/gradlew
+
+    - name: 9. Compile & Generate Unsigned Debug APK
+      run: |
+        cd android
+        ./gradlew assembleDebug
+        cd ..
+
+    - name: 10. Archive & Upload Debug Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Educational-Platform-Debug-APK
+        path: android/app/build/outputs/apk/debug/app-debug.apk
+        retention-days: 7
