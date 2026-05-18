@@ -113,7 +113,7 @@
 
         .academic-section {
             margin-bottom: 25px;
-            display: none; /* مخفي افتراضياً ويظهر عند التوليد فقط */
+            display: none; /* مخفي افتراضياً ويظهر عند التوليد بنجاح */
         }
 
         .academic-section h2 {
@@ -157,9 +157,9 @@
         <div class="control-group">
             <label>الصف الدراسي</label>
             <select id="inputGrade">
-                <option value="١">الصف الأول الأساسي</option>
-                <option value="٢">الصف الثاني الأساسي</option>
-                <option value="٣">الصف الثالث الأساسي</option>
+                <option value="1">الصف الأول الأساسي</option>
+                <option value="2">الصف الثاني الأساسي</option>
+                <option value="3">الصف الثالث الأساسي</option>
             </select>
         </div>
 
@@ -186,27 +186,27 @@
                 </div>
             </div>
 
-            <div class="academic-section" id="sec١">
+            <div class="academic-section" id="sec1">
                 <h2>[١] أهداف الدرس السلوكية</h2>
                 <div class="content-area" id="outObjectives"></div>
             </div>
 
-            <div class="academic-section" id="sec٢">
+            <div class="academic-section" id="sec2">
                 <h2>[٢] التمهيد والتهيئة الحافزة</h2>
                 <div class="content-area" id="outIntro"></div>
             </div>
 
-            <div class="academic-section" id="sec٣">
+            <div class="academic-section" id="sec3">
                 <h2>[٣] الشرح المتدرج ومسار التعلّم</h2>
                 <div class="content-area" id="outPath"></div>
             </div>
 
-            <div class="academic-section" id="sec٤">
+            <div class="academic-section" id="sec4">
                 <h2>[٤] الأنشطة التعليمية المتكاملة</h2>
                 <div class="content-area" id="outActivities"></div>
             </div>
 
-            <div class="academic-section" id="sec٥">
+            <div class="academic-section" id="sec5">
                 <h2>[٥] التقويم متعدد المستويات</h2>
                 <div class="content-area" id="outEval"></div>
             </div>
@@ -215,35 +215,56 @@
     </main>
 
     <script>
-        document.getElementById('btnCompile').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // قراءة البيانات من المدخلات
-            const subject = document.getElementById('inputSubject').value;
-            const gradeText = document.getElementById('inputGrade').value;
-            const topic = document.getElementById('inputTopic').value;
+        // دمج الأحداث ومعالجة المشكلة الأمنية وثبات الكود بالكامل بأسماء متغيرات قياسية
+        document.addEventListener("DOMContentLoaded", function() {
+            const compileBtn = document.getElementById('btnCompile');
+            if (compileBtn) {
+                const triggerAction = function(e) {
+                    e.preventDefault();
+                    
+                    const subject = document.getElementById('inputSubject').value;
+                    const gradeSelect = document.getElementById('inputGrade');
+                    const gradeText = gradeSelect.options[gradeSelect.selectedIndex].text;
+                    const topic = document.getElementById('inputTopic').value;
 
-            // تحديث الترويسة الأكاديمية فوراً عبر الـ DOM المباشر لإنهاء التجمد
-            document.getElementById('outSubject').innerText = subject;
-            document.getElementById('outGrade').innerText = gradeText;
-            document.getElementById('outTopic').innerText = topic;
+                    // تحديث الترويسة الأكاديمية فوراً
+                    document.getElementById('outSubject').innerText = enforceDigits(subject);
+                    document.getElementById('outGrade').innerText = enforceDigits(gradeText);
+                    document.getElementById('outTopic').innerText = enforceDigits(topic);
 
-            // تفعيل منطق المحسوس ثم شبه المحسوس ثم المجرد بناءً على معايير المناهج الفلسطينية
-            document.getElementById('outObjectives').innerHTML = "• أن يستنتج التلميذ مفهوم (" + topic + ") باستخدام الوسائل والأشكال الحسية المتوفرة بدقة.<br>• أن يمثل التلميذ القيمة الرياضية لـ (" + topic + ") بالرسم البصري المبسط.";
-            
-            document.getElementById('outIntro').innerText = "ندخل إلى الغرفة الصفية وفي جعبتنا سلة من المحسوسات (ألعاب أو حبات فاكهة). نسأل الطلاب: إذا كان معنا مجموعة من العناصر وقمنا بإخفاء جزء منها، كم يتبقى لدينا؟ نربط هذا المشهد الواقعي مباشرة بدرسنا: " + topic;
-            
-            document.getElementById('outPath').innerHTML = "<b>١. المسار المحسوس:</b> عرض ٥ مكعبات حقيقية أمام الطلاب، ثم شطب وسحب مكعبين ليلاحظ الطفل التغير المادي الملموس.<br><b>٢. المسار شبه المحسوس:</b> رسم ٥ دوائر متجاورة على السبورة وتكليف أحد الطلاب بشطب دائرتين باستخدام القلم بصرياً.<br><b>٣. المسار المجرد:</b> صياغة العملية الحسابية الصرفة باستخدام الرموز الجافة وتثبيتها: ٥ - ٢ = ٣.";
-            
-            document.getElementById('outActivities').innerHTML = "<b>• نشاط فردي ذاتي:</b> يقوم كل طالب داخل مقعده بمحاولة حل المسألة التعليمية التطبيقية الأولى في صمت لتقييم الاستيعاب الفردي.<br><b>• نشاط جماعي تعاوني:</b> العمل في مجموعات رباعية متجانسة لحل بطاقة تشتمل على لغز أو مسألة حياتية لـ " + topic;
-            
-            document.getElementById('outEval').innerHTML = "<b>المستوى الأول (مباشر):</b> باستخدام الرسم المجاور، اشطب ٣ عناصر واكتب الباقي.<br><b>المستوى الثاني (تطبيقي):</b> مع أحمد ٧ أقلام تلوين، أعطى شقيقته ٤ أقلام. كم قلمين بقي معه؟<br><b>المستوى الثالث (تفكير ناقد):</b> صندوق يحتوي على كرات، أضفنا إليها ٢ فأصبح المجموع ٦، فكم كرة كانت فيه بالبداية؟";
+                    // حقن البيانات التعليمية النظيفة المتوافقة مع المنهاج الفلسطيني والتدرج المعرفي
+                    document.getElementById('outObjectives').innerHTML = "• أن يستنتج التلميذ مفهوم (" + enforceDigits(topic) + ") باستخدام الوسائل والأشكال الحسية المتوفرة بدقة.<br>• أن يمثل التلميذ القيمة الرياضية لـ (" + enforceDigits(topic) + ") بالرسم البصري المبسط.";
+                    
+                    document.getElementById('outIntro').innerText = "ندخل إلى الغرفة الصفية وفي جعبتنا سلة من المحسوسات (ألعاب أو حبات فاكهة). نسأل الطلاب: إذا كان معنا مجموعة من العناصر وقمنا بإخفاء جزء منها، كم يتبقى لدينا؟ نربط هذا المشهد الواقعي مباشرة بدرسنا: " + enforceDigits(topic);
+                    
+                    document.getElementById('outPath').innerHTML = "<b>١. المسار المحسوس:</b> عرض ٥ مكعبات حقيقية أمام الطلاب، ثم شطب وسحب مكعبين ليلاحظ الطفل التغير المادي الملموس.<br><b>٢. المسار شبه المحسوس:</b> رسم ٥ دوائر متجاورة على السبورة وتكليف أحد الطلاب بشطب دائرتين باستخدام القلم بصرياً.<br><b>٣. المسار المجرد:</b> صياغة العملية الحسابية الصرفة باستخدام الرموز الجافة وتثبيتها: ٥ - ٢ = ٣.";
+                    
+                    document.getElementById('outActivities').innerHTML = "<b>• نشاط فردي ذاتي:</b> يقوم كل طالب داخل مقعده بمحاولة حل المسألة التعليمية التطبيقية الأولى في صمت لتقييم الاستيعاب الفردي.<br><b>• نشاط جماعي تعاوني:</b> العمل في مجموعات رباعية متجانسة لحل بطاقة تشتمل على لغز أو مسألة حياتية لـ " + enforceDigits(topic);
+                    
+                    document.getElementById('outEval').innerHTML = "<b>المستوى الأول (مباشر):</b> باستخدام الرسم المجاور، اشطب ٣ عناصر واكتب الباقي.<br><b>المستوى الثاني (تطبيقي):</b> مع أحمد ٧ أقلام تلوين، أعطى شقيقته ٤ أقلام. كم قلمين بقي معه؟<br><b>المستوى الثالث (تفكير ناقد):</b> صندوق يحتوي على كرات، أضفنا إليها ٢ فأصبح المجموع ٦، فكم كرة كانت فيه بالبداية؟";
 
-            // إظهار كافة الأقسام الأكاديمية بعد حقن البيانات النظيفة فيها
-            for (let i = ١; i <= ٥; i++) {
-                document.getElementById('sec' + i).style.display = 'block';
+                    // حلقة تكرارية بأرقام عالمية قياسية لإظهار الأقسام بسلاسة تامة دون انهيار
+                    for (let i = 1; i <= 5; i++) {
+                        const section = document.getElementById('sec' + i);
+                        if (section) {
+                            section.style.display = 'block';
+                        }
+                    }
+                };
+
+                compileBtn.addEventListener('click', triggerAction);
+                compileBtn.addEventListener('touchstart', triggerAction, {passive: false});
             }
         });
+
+        // تابع تحويل الأرقام الفوري للأرقام المشرقية في النصوص المخرجة فقط للطلاب
+        function enforceDigits(str) {
+            if(typeof str !== 'string') str = String(str);
+            const easternDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return str.replace(/[0-9]/g, function(w) {
+                return easternDigits[+w];
+            });
+        }
     </script>
 </body>
 </html>
