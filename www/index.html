@@ -2,288 +2,28 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>المنصة التعليمية الذكية - زتونة</title>
-    <style>
-        /* ==================================================================
-           [1] الهوية البصرية والتصميم الاحترافي (Modern Premium Theme)
-           ================================================================== */
-        :root {
-            --primary: #10b981; /* أخضر زتوني حيوي مريح للعين */
-            --primary-dark: #059669;
-            --secondary: #1e293b; /* كحلي فاخر خلفي */
-            --bg-light: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --radius: 12px;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --a4-width: 210mm;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: row;
-            min-height: 100vh;
-        }
-
-        /* لوحة التحكم الجانبية الفاخرة */
-        .sidebar-matrix {
-            width: 340px;
-            min-width: 340px;
-            background-color: var(--secondary);
-            color: #ffffff;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-            z-index: 100;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 15px;
-            margin-bottom: 5px;
-        }
-
-        .sidebar-header h3 {
-            font-size: 1.25rem;
-            color: var(--primary);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .sidebar-header p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .control-group label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        .control-group input, .control-group select {
-            padding: 14px;
-            border: 1px solid #334155;
-            border-radius: var(--radius);
-            background: #0f172a;
-            color: #ffffff;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            width: 100%;
-        }
-
-        .control-group input:focus, .control-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-compile, .btn-print {
-            padding: 15px;
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 700;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.2s;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-compile {
-            background-color: var(--primary);
-            color: white;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-compile:active {
-            transform: scale(0.98);
-            background-color: var(--primary-dark);
-        }
-
-        .btn-print {
-            background-color: #334155;
-            color: #f8fafc;
-            border: 1px solid #475569;
-            margin-top: 5px;
-        }
-
-        .btn-print:active {
-            transform: scale(0.98);
-            background-color: #1e293b;
-        }
-
-        /* بيئة المعاينة وعرض الأوراق والمستندات */
-        .workspace-viewport {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            display: flex;
-            justify-content: center;
-            background-color: #f1f5f9;
-        }
-
-        .a4-document-sheet {
-            width: var(--a4-width);
-            min-height: 297mm;
-            background: var(--surface);
-            box-shadow: var(--shadow-lg);
-            padding: 20mm;
-            border-radius: 4px;
-            color: #000000;
-            transition: all 0.3s ease;
-        }
-
-        /* الترويسة الأفقية المدمجة المتطورة (Flexbox Layout) */
-        .academic-header {
-            border: 2px solid #000000;
-            padding: 18px;
-            margin-bottom: 30px;
-            border-radius: 6px;
-            background: #fafafa;
-        }
-
-        .header-flex-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .header-flex-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .header-item {
-            font-size: 1.05rem;
-        }
-
-        /* تنظيم المواد التعليمية النظيفة للطلاب */
-        .academic-section {
-            margin-bottom: 32px;
-            display: none; /* تظهر بحركة انسيابية عند التوليد */
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        .academic-section h2 {
-            font-size: 1.35rem;
-            font-weight: 700;
-            border-bottom: 2px solid #000000;
-            padding-bottom: 6px;
-            margin-bottom: 16px;
-            color: #000000;
-        }
-
-        .content-area {
-            padding-right: 10px;
-            line-height: 1.8;
-            font-size: 1.15rem;
-            color: #000000;
-        }
-
-        /* تنسيق الأنشطة التطبيقية وبطاقات المحسوسات */
-        .tier-card {
-            border: 1px dashed #000000;
-            padding: 15px;
-            margin-top: 12px;
-            background: #fbfbfb;
-            border-radius: 6px;
-        }
-
-        .tier-title {
-            font-weight: 700;
-            text-decoration: underline;
-            margin-bottom: 6px;
-        }
-
-        /* شاشات الهواتف المحمولة والتابلت */
-        @media (max-width: 992px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar-matrix {
-                width: 100%;
-                min-width: 100%;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            }
-            .workspace-viewport {
-                padding: 15px;
-            }
-            .a4-document-sheet {
-                width: 100%;
-                min-height: auto;
-                padding: 20px 15px;
-                box-shadow: none;
-            }
-        }
-
-        /* تحضير الواجهة بالكامل للطباعة الفيزيائية وعزل عناصر الويب */
-        @media print {
-            body {
-                background: white;
-                overflow: visible;
-            }
-            .sidebar-matrix {
-                display: none !important;
-            }
-            .workspace-viewport {
-                padding: 0 !important;
-                margin: 0 !important;
-                overflow: visible !important;
-            }
-            .a4-document-sheet {
-                box-shadow: none !important;
-                width: var(--a4-width) !important;
-                margin: 0 !important;
-                padding: 20mm !important;
-                border-radius: 0 !important;
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-color=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>المنصة التعليمية الذكية - AEIC</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="sidebar-matrix">
+    <div class="sidebar-matrix" id="adminSidebar">
         <div class="sidebar-header">
-            <h3>منصة زتونة الذكية</h3>
-            <p>نظام التوليد المعرفي للمناهج الفلسطينية</p>
+            <h3>محرك التوليد الذكي (AEIC)</h3>
+            <span class="version-tag">إصدار ٢٠٢٦ - المناهج الذكية</span>
+        </div>
+        
+        <div class="control-group" style="border: 1px dashed #27ae60; padding: 10px; border-radius: 4px;">
+            <label style="color: #2ecc71; font-weight: bold;">📷 معالج صور الكتاب المدرسي</label>
+            <input type="file" id="imageSyllabusInput" accept="image/*" multiple style="padding: 5px; font-size: 0.8rem;">
+            <button class="btn-compile" id="btnAnalyzeImage" style="background-color: #d35400; margin-top: 5px; padding: 8px;">تحليل واستخراج النص 🧠</button>
+            <div id="ocrStatus" style="font-size: 0.8rem; color: #f1c40f; margin-top: 5px; display: none;">جاري تفكيك خط الكتاب وقراءة المهارات...</div>
         </div>
         
         <div class="control-group">
             <label>المادة الدراسية</label>
-            <input type="text" id="inputSubject" value="الرياضيات">
+            <input type="text" id="inputSubject" value="الرياضيات" placeholder="مثال: الرياضيات، العلوم...">
         </div>
 
         <div class="control-group">
@@ -292,117 +32,34 @@
                 <option value="1">الصف الأول الأساسي</option>
                 <option value="2">الصف الثاني الأساسي</option>
                 <option value="3">الصف الثالث الأساسي</option>
+                <option value="5">الصف الخامس الأساسي</option>
+                <option value="8">الصف الثامن الأساسي</option>
             </select>
         </div>
 
         <div class="control-group">
-            <label>موضوع الدرس</label>
-            <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠">
+            <label>موضوع الدرس (المستخلص آلياً)</label>
+            <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠" placeholder="أدخل العنوان أو سيتم توليده من الصورة">
         </div>
 
-        <button class="btn-compile" id="btnCompile">
-            <span>توليد وبناء المستند</span> ✨
-        </button>
-        <button class="btn-print" id="btnPrint" onclick="window.print()">
-            <span>طباعة فورية للمادة</span> 🖨️
-        </button>
+        <button class="btn-compile" id="btnCompile">توليد وبناء النظام التعليمي ⚙️</button>
+        <button class="btn-print" id="btnPrint" onclick="window.print()">طباعة المادة المخرجة 🖨️</button>
+        
+        <div class="system-status">
+            <span class="status-indicator"></span>
+            <span id="statusText">النظام جاهز للعمل محلياً (Offline)</span>
+        </div>
     </div>
 
     <main class="workspace-viewport">
-        <div class="a4-document-sheet" id="printSheet">
-            
-            <div class="academic-header">
-                <div class="header-flex-row">
-                    <div class="header-item"><strong>المادة:</strong> <span id="outSubject">الرياضيات</span></div>
-                    <div class="header-item"><strong>الصف الدراسي:</strong> <span id="outGrade">الصف الأول الأساسي</span></div>
-                </div>
-                <div class="header-flex-row">
-                    <div class="header-item"><strong>عنوان الدرس:</strong> <span id="outTopic">مفهوم الطرح ضمن العدد ١٠</span></div>
-                    <div class="header-item"><strong>دليل المعلم:</strong> <span id="outTier">المرحلة الأساسية الدنيا</span></div>
-                </div>
+        <div id="outputPrintContainer" class="a4-document-sheet">
+            <div class="placeholder-notice">
+                <p>يرجى إدخال البيانات أو رفع صورة الدرس والضغط على "توليد وبناء النظام التعليمي" لبدء المعالجة المنطقية.</p>
             </div>
-
-            <div class="academic-section" id="sec1">
-                <h2>[١] أهداف الدرس السلوكية</h2>
-                <div class="content-area" id="outObjectives"></div>
-            </div>
-
-            <div class="academic-section" id="sec2">
-                <h2>[٢] التمهيد والتهيئة الحافزة</h2>
-                <div class="content-area" id="outIntro"></div>
-            </div>
-
-            <div class="academic-section" id="sec3">
-                <h2>[٣] الشرح ومسار التعلّم المتدرج</h2>
-                <div class="content-area" id="outPath"></div>
-            </div>
-
-            <div class="academic-section" id="sec4">
-                <h2>[٤] الأنشطة التعليمية التطبيقية</h2>
-                <div class="content-area" id="outActivities"></div>
-            </div>
-
-            <div class="academic-section" id="sec5">
-                <h2>[٥] التقويم متعدد المستويات</h2>
-                <div class="content-area" id="outEval"></div>
-            </div>
-
         </div>
     </main>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const compileBtn = document.getElementById('btnCompile');
-            if (compileBtn) {
-                const triggerAction = function(e) {
-                    e.preventDefault();
-                    
-                    const subject = document.getElementById('inputSubject').value;
-                    const gradeSelect = document.getElementById('inputGrade');
-                    const gradeText = gradeSelect.options[gradeSelect.selectedIndex].text;
-                    const topic = document.getElementById('inputTopic').value;
-
-                    // تحديث الترويسة الأفقية عبر الـ DOM النظيف والآمن
-                    document.getElementById('outSubject').innerText = enforceDigits(subject);
-                    document.getElementById('outGrade').innerText = enforceDigits(gradeText);
-                    document.getElementById('outTopic').innerText = enforceDigits(topic);
-
-                    // بناء المادة العلمية بالتدرج المنهجي من المحسوس للمجرد
-                    document.getElementById('outObjectives').innerHTML = "• أن يستنتج التلميذ مفهوم (" + enforceDigits(topic) + ") باستخدام المحسوسات المتوفرة بدقة.<br>• أن يمثل التلميذ القيمة الرياضية لـ (" + enforceDigits(topic) + ") بالرسم البصري الصحيح.";
-                    
-                    document.getElementById('outIntro').innerText = "ندخل إلى الغرفة الصفية وفي جعبتنا سلة من المحسوسات المادية (ألعاب أو مكعبات تلوين). نطرح على الطلاب سؤالاً تفاعلياً: إذا كان معنا مجموعة من العناصر وقمنا بإخفاء جزء منها، كم يتبقى لدينا؟ نربط الاستنتاجات مباشرة بدرسنا اليوم: " + enforceDigits(topic);
-                    
-                    document.getElementById('outPath').innerHTML = 
-                        "<div class='tier-card'><div class='tier-title'>١. المسار المحسوس (المادي):</div>عرض ٥ مكعبات حقيقية أمام عيون الطلاب، ثم شطب وسحب مكعبين بشكل مادي ليلاحظ الطفل النقصان الفعلي لعناصر المجموعة.</div>" +
-                        "<div class='tier-card'><div class='tier-title'>٢. المسار شبه المحسوس (البصري):</div>رسم ٥ دوائر متسلسلة على السبورة، وتكليف أحد الطلاب بالتقدم وشطب دائرتين باستخدام القلم بشكل مرئي.</div>" +
-                        "<div class='tier-card'><div class='tier-title'>٣. المسار المجرد (الرموز):</div>ترجمة العمليات السابقة إلى معادلة رياضية جافة بالرموز الصرفة لتثبيتها في الذهن: ٥ - ٢ = ٣.</div>";
-                    
-                    document.getElementById('outActivities').innerHTML = "<b>• نشاط فردي مستهدف:</b> حل المسألة التطبيقية الأولى في بطاقة التعلم الفردي صامتاً، لقياس استيعاب التلميذ المستقل للرموز.<br><b>• نشاط جماعي تعاوني:</b> العمل ضمن مجموعات رباعية متجانسة لحل لغز لفظي يدمج المفهوم ببيئة الطالب الواقعية لدرس " + enforceDigits(topic);
-                    
-                    document.getElementById('outEval').innerHTML = "<b>المستوى الأول (مباشر حسي):</b> باستخدام الرسم الموضح أدناه، اشطب ٣ كرات واكتب عدد الكرات المتبقية في المربع.<br><b>المستوى الثاني (تطبيقي لفظي):</b> مع أحمد ٧ أقلام تلوين، أعطى شقيقته ٤ أقلام. كم قلمين بقي مع أحمد الآن؟<br><b>المستوى الثالث (تفكير ناقد):</b> صندوق مغلق يحتوي على عدد من الكرات، أضفنا إليها كرتين فأصبح المجموع ٦، فكم كرة كانت فيه منذ البداية؟";
-
-                    // إظهار بطاقات المستند النظيف بحركة تفاعلية عبر حلقات ذات تسمية رقمية قياسية عالمية
-                    for (let i = 1; i <= 5; i++) {
-                        const section = document.getElementById('sec' + i);
-                        if (section) {
-                            section.style.display = 'block';
-                        }
-                    }
-                };
-
-                compileBtn.addEventListener('click', triggerAction);
-                compileBtn.addEventListener('touchstart', triggerAction, {passive: false});
-            }
-        });
-
-        // خوارزمية حقن الأرقام المشرقية في النصوص المخرجة فقط للطلاب والطباعة
-        function enforceDigits(str) {
-            if(typeof str !== 'string') str = String(str);
-            const easternDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-            return str.replace(/[0-9]/g, function(w) {
-                return easternDigits[+w];
-            });
-        }
-    </script>
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
