@@ -1,0 +1,182 @@
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #2980b9;
+    --bg-sidebar: #1a252f;
+    --text-light: #ecf0f1;
+    --border-color: #bdc3c7;
+    --a4-width: 210mm;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar-matrix {
+    width: 320px;
+    background-color: var(--bg-sidebar);
+    color: var(--text-light);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border-left: 2px solid #2c3e50;
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.sidebar-header h3 {
+    font-size: 1.1rem;
+    color: #3498db;
+    margin-bottom: 5px;
+}
+
+.version-tag {
+    font-size: 0.75rem;
+    background: #34495e;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-group label {
+    font-size: 0.9rem;
+    color: #95a5a6;
+}
+
+.control-group input, .control-group select {
+    padding: 10px;
+    border: 1px solid #34495e;
+    border-radius: 4px;
+    background: #2c3e50;
+    color: #fff;
+    font-size: 0.95rem;
+}
+
+.btn-compile, .btn-print {
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-compile { background-color: #27ae60; color: white; }
+.btn-compile:hover { background-color: #219653; }
+.btn-print { background-color: #2980b9; color: white; }
+.btn-print:hover { background-color: #2471a3; }
+
+.system-status {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #bdc3c7;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+}
+
+.workspace-viewport {
+    flex: 1;
+    padding: 40px 20px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.a4-document-sheet {
+    width: var(--a4-width);
+    min-height: 297mm;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 20mm;
+    position: relative;
+    color: #000;
+}
+
+.placeholder-notice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.academic-header {
+    border: 2px solid #000;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.header-flex-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.academic-section {
+    margin-bottom: 25px;
+}
+
+.academic-section h2 {
+    font-size: 1.3rem;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 12px;
+}
+
+.objective-list, .activity-box, .evaluation-item {
+    margin-right: 20px;
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+.activity-card {
+    border: 1px dashed #000;
+    padding: 12px;
+    margin-top: 10px;
+    background: #fafafa;
+}
+
+@media print {
+    body {
+        background: white;
+        overflow: visible;
+    }
+    .sidebar-matrix {
+        display: none !important;
+    }
+    .workspace-viewport {
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+    .a4-document-sheet {
+        box-shadow: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
