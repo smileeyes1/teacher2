@@ -2,62 +2,121 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-color=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>المنصة التعليمية الذكية - AEIC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>منصة رُقي التعليمية الذكية - الإصدار المعياري الشامل</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="sidebar-matrix" id="adminSidebar">
-        <div class="sidebar-header">
-            <h3>محرك التوليد الذكي (AEIC)</h3>
-            <span class="version-tag">إصدار ٢٠٢٦ - المناهج الذكية</span>
-        </div>
-        
-        <div class="control-group" style="border: 1px dashed #27ae60; padding: 10px; border-radius: 4px;">
-            <label style="color: #2ecc71; font-weight: bold;">📷 معالج صور الكتاب المدرسي</label>
-            <input type="file" id="imageSyllabusInput" accept="image/*" multiple style="padding: 5px; font-size: 0.8rem;">
-            <button class="btn-compile" id="btnAnalyzeImage" style="background-color: #d35400; margin-top: 5px; padding: 8px;">تحليل واستخراج النص 🧠</button>
-            <div id="ocrStatus" style="font-size: 0.8rem; color: #f1c40f; margin-top: 5px; display: none;">جاري تفكيك خط الكتاب وقراءة المهارات...</div>
-        </div>
-        
-        <div class="control-group">
-            <label>المادة الدراسية</label>
-            <input type="text" id="inputSubject" value="الرياضيات" placeholder="مثال: الرياضيات، العلوم...">
-        </div>
-
-        <div class="control-group">
-            <label>الصف الدراسي</label>
-            <select id="inputGrade">
-                <option value="1">الصف الأول الأساسي</option>
-                <option value="2">الصف الثاني الأساسي</option>
-                <option value="3">الصف الثالث الأساسي</option>
-                <option value="5">الصف الخامس الأساسي</option>
-                <option value="8">الصف الثامن الأساسي</option>
-            </select>
-        </div>
-
-        <div class="control-group">
-            <label>موضوع الدرس (المستخلص آلياً)</label>
-            <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠" placeholder="أدخل العنوان أو سيتم توليده من الصورة">
-        </div>
-
-        <button class="btn-compile" id="btnCompile">توليد وبناء النظام التعليمي ⚙️</button>
-        <button class="btn-print" id="btnPrint" onclick="window.print()">طباعة المادة المخرجة 🖨️</button>
-        
-        <div class="system-status">
-            <span class="status-indicator"></span>
-            <span id="statusText">النظام جاهز للعمل محلياً (Offline)</span>
-        </div>
-    </div>
-
-    <main class="workspace-viewport">
-        <div id="outputPrintContainer" class="a4-document-sheet">
-            <div class="placeholder-notice">
-                <p>يرجى إدخال البيانات أو رفع صورة الدرس والضغط على "توليد وبناء النظام التعليمي" لبدء المعالجة المنطقية.</p>
+    <div id="system-grid-container">
+        <aside class="sidebar-matrix" id="adminSidebar">
+            <div class="sidebar-header">
+                <h3>محرك التوليد الذكي (AEIC)</h3>
+                <span class="version-tag">إصدار رُقي ٢٠٢٦ الشامل</span>
             </div>
-        </div>
-    </main>
+            
+            <div class="control-card-module">
+                <h4>📁 معالج ومحلل المناهج البصري</h4>
+                <div class="control-field">
+                    <label>تحميل ملفات/صور الدرس من الكتاب</label>
+                    <input type="file" id="imageSyllabusInput" accept="image/*" multiple>
+                </div>
+                <div class="control-field">
+                    <label>المحتوى النصي أو المهارات المستخرجة</label>
+                    <textarea id="raw-book-content" placeholder="قم بلصق محتوى الدرس أو سيتم ملؤه تلقائياً عند معالجة صور المنهج المدرسي..."></textarea>
+                </div>
+                <button class="btn-compile" id="btnAnalyzeImage" style="background-color: #d35400;">تحليل المحتوى واستخراج المهارات 🧠</button>
+                <div id="ocrStatus" style="font-size: 0.8rem; color: #f1c40f; margin-top: 5px; display: none; text-align: center;">جاري تفكيك خط الكتاب وقراءة المهارات... ⏳</div>
+            </div>
+
+            <div class="control-card-module">
+                <h4>⚙️ إعدادات التوليد التكيفي البنائي</h4>
+                <div class="control-field">
+                    <label>المادة الدراسية</label>
+                    <input type="text" id="inputSubject" value="الرياضيات">
+                </div>
+                <div class="control-field">
+                    <label>الصف الدراسي</label>
+                    <select id="inputGrade">
+                        <option value="1">الصف الأول الأساسي</option>
+                        <option value="2">الصف الثاني الأساسي</option>
+                        <option value="3">الصف الثالث الأساسي</option>
+                    </select>
+                </div>
+                <div class="control-field">
+                    <label>موضوع الدرس المستهدف</label>
+                    <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠" placeholder="أدخل العنوان الدقيق للدرس">
+                </div>
+                <div class="control-field">
+                    <label>نوع المادة التعليمية المخرجة</label>
+                    <select id="select-output-type">
+                        <option value="worksheet">ورقة عمل بنائية متدرجة</option>
+                        <option value="exam">اختبار تقييمي تشخيصي</option>
+                        <option value="remedial_plan">خطة علاجية مسندة لنقاط الضعف</option>
+                    </select>
+                </div>
+                <div class="control-field">
+                    <label>مستوى التكيف المستهدف للطالب</label>
+                    <select id="select-student-tier">
+                        <option value="core">المسار العام (متزن)</option>
+                        <option value="remedial">المسار العلاجي (تركيز حسي ومحسوس)</option>
+                        <option value="enrichment">المسار الإثرائي (تفكير ناقد ومجرد)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-card-module">
+                <h4>📊 مصفوفة التمكن والتكيف الحالي</h4>
+                <div class="mastery-status-box">
+                    <div class="mastery-item">
+                        <span>التمكن الحسي البصري (رسومات الشطب):</span>
+                        <div class="progress-bar-container"><div id="bar-sensory" class="progress-bar-fill" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="mastery-item">
+                        <span>التمكن اللفظي السياقي (المسائل اللفظية):</span>
+                        <div class="progress-bar-container"><div id="bar-contextual" class="progress-bar-fill" style="width: 60%;"></div></div>
+                    </div>
+                    <div class="mastery-item">
+                        <span>التمكن الرمزي المجرد (المعادلات):</span>
+                        <div class="progress-bar-container"><div id="bar-abstract" class="progress-bar-fill" style="width: 40%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-compile" id="btnCompile">بناء وحقن مادة الطالب 🚀</button>
+            <button class="btn-print" id="btnPrint" onclick="window.print()">طباعة المادة المخرجة النظيفة 🖨️</button>
+            
+            <div class="system-status">
+                <span class="status-indicator"></span>
+                <span id="statusText">النظام جاهز للعمل محلياً (Offline)</span>
+            </div>
+        </aside>
+
+        <main class="workspace-viewport">
+            <div id="outputPrintContainer" class="a4-document-sheet">
+                <div class="academic-header" id="document-header-zone">
+                    <div class="header-flex-row">
+                        <div><strong>المدرسة:</strong> <span>مدرسة عاطوف الأساسية</span></div>
+                        <div><strong>المعلم المشرف:</strong> <span>محمد وجيه غنام</span></div>
+                    </div>
+                    <div class="header-flex-row">
+                        <div><strong>المادة الدراسية:</strong> <span id="lbl-doc-subject">الرياضيات</span></div>
+                        <div><strong>المرحلة والصف:</strong> <span id="lbl-doc-grade">الصف الأول الأساسي</span></div>
+                    </div>
+                    <div class="header-flex-row">
+                        <div><strong>موضوع الدرس:</strong> <span id="lbl-doc-topic">مفهوم الطرح ضمن العدد ١٠</span></div>
+                        <div><strong>طبيعة المخرجات للطلبة:</strong> <span id="lbl-doc-type">ورقة عمل بنائية متدرجة</span></div>
+                    </div>
+                </div>
+
+                <div class="student-clean-content-body" id="document-content-zone">
+                    <div class="placeholder-notice">
+                        <p>يرجى إدخال البيانات أو رفع صورة الدرس والضغط على "بناء وحقن مادة الطالب" لبدء المعالجة المنطقية والتوليد.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
     <script src="js/app.js"></script>
