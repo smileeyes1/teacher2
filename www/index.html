@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>المنصة التعليمية الذكية - AEIC</title>
     <style>
-        /* [1] واجهة التصميم المتجاوبة والمرنة بالكامل */
         :root {
             --primary-color: #2c3e50;
             --accent-color: #2980b9;
             --bg-sidebar: #1a252f;
             --text-light: #ecf0f1;
-            --border-color: #bdc3c7;
+            --border-color: #000000;
             --a4-width: 210mm;
         }
 
@@ -19,7 +18,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -28,7 +27,6 @@
             display: flex;
             flex-direction: row;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         .sidebar-matrix {
@@ -40,7 +38,6 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            border-left: 2px solid #2c3e50;
             z-index: 100;
             overflow-y: auto;
         }
@@ -49,13 +46,6 @@
             font-size: 1.1rem;
             color: #3498db;
             margin-bottom: 5px;
-        }
-
-        .version-tag {
-            font-size: 0.75rem;
-            background: #34495e;
-            padding: 2px 6px;
-            border-radius: 4px;
         }
 
         .control-group {
@@ -86,31 +76,11 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 1rem;
-            transition: background 0.2s;
             width: 100%;
-            display: block;
         }
 
         .btn-compile { background-color: #27ae60; color: white; }
-        .btn-compile:hover { background-color: #219653; }
-        .btn-print { background-color: #2980b9; color: white; }
-        .btn-print:hover { background-color: #2471a3; }
-
-        .system-status {
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: #bdc3c7;
-        }
-
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: #2ecc71;
-            border-radius: 50%;
-        }
+        .btn-print { background-color: #2980b9; color: white; margin-top: 5px; }
 
         .workspace-viewport {
             flex: 1;
@@ -118,7 +88,6 @@
             overflow-y: auto;
             display: flex;
             justify-content: center;
-            width: 100%;
         }
 
         .a4-document-sheet {
@@ -127,18 +96,7 @@
             background: white;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             padding: 20mm;
-            position: relative;
             color: #000;
-        }
-
-        .placeholder-notice {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-            color: #7f8c8d;
-            font-style: italic;
-            text-align: center;
         }
 
         .academic-header {
@@ -155,6 +113,7 @@
 
         .academic-section {
             margin-bottom: 25px;
+            display: none; /* مخفي افتراضياً ويظهر عند التوليد فقط */
         }
 
         .academic-section h2 {
@@ -164,306 +123,127 @@
             margin-bottom: 12px;
         }
 
-        .objective-list, .activity-box, .evaluation-item {
-            margin-right: 20px;
-            margin-top: 8px;
-            line-height: 1.6;
-        }
-
-        .activity-card {
-            border: 1px dashed #000;
-            padding: 12px;
-            margin-top: 10px;
-            background: #fafafa;
+        .content-area {
+            margin-right: 15px;
+            line-height: 1.7;
+            font-size: 1.1rem;
         }
 
         @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-                overflow-y: auto;
-            }
-            .sidebar-matrix {
-                width: 100%;
-                min-width: 100%;
-                border-left: none;
-                border-bottom: 3px solid #2c3e50;
-                overflow-y: visible;
-            }
-            .workspace-viewport {
-                padding: 10px;
-                overflow-y: visible;
-            }
-            .a4-document-sheet {
-                width: 100%;
-                min-height: auto;
-                padding: 15px;
-            }
+            body { flex-direction: column; }
+            .sidebar-matrix { width: 100%; min-width: 100%; }
+            .a4-document-sheet { width: 100%; padding: 15px; }
         }
 
         @media print {
-            body {
-                background: white;
-                overflow: visible;
-                flex-direction: row;
-            }
-            .sidebar-matrix {
-                display: none !important;
-            }
-            .workspace-viewport {
-                padding: 0 !important;
-                margin: 0 !important;
-                overflow: visible !important;
-            }
-            .a4-document-sheet {
-                box-shadow: none !important;
-                width: var(--a4-width) !important;
-                margin: 0 !important;
-                padding: 20mm !important;
-            }
+            .sidebar-matrix { display: none !important; }
+            body { background: white; }
+            .a4-document-sheet { box-shadow: none !important; width: var(--a4-width) !important; padding: 20mm !important; }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar-matrix" id="adminSidebar">
+    <div class="sidebar-matrix">
         <div class="sidebar-header">
             <h3>محرك التوليد الذكي (AEIC)</h3>
-            <span class="version-tag">إصدار ٢٠٢٦</span>
         </div>
         
         <div class="control-group">
             <label>المادة الدراسية</label>
-            <input type="text" id="inputSubject" value="الرياضيات" placeholder="مثال: الرياضيات...">
+            <input type="text" id="inputSubject" value="الرياضيات">
         </div>
 
         <div class="control-group">
             <label>الصف الدراسي</label>
             <select id="inputGrade">
-                <option value="1">الصف الأول الأساسي</option>
-                <option value="2">الصف الثاني الأساسي</option>
-                <option value="3">الصف الثالث الأساسي</option>
-                <option value="5">الصف الخامس الأساسي</option>
-                <option value="8">الصف الثامن الأساسي</option>
+                <option value="١">الصف الأول الأساسي</option>
+                <option value="٢">الصف الثاني الأساسي</option>
+                <option value="٣">الصف الثالث الأساسي</option>
             </select>
         </div>
 
         <div class="control-group">
             <label>موضوع الدرس</label>
-            <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠" placeholder="أدخل عنوان الدرس">
+            <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠">
         </div>
 
         <button class="btn-compile" id="btnCompile">توليد وبناء النظام التعليمي ⚙️</button>
         <button class="btn-print" id="btnPrint" onclick="window.print()">طباعة المادة المخرجة 🖨️</button>
-        
-        <div class="system-status">
-            <span class="status-indicator"></span>
-            <span id="statusText">النظام آمن ومصرح بالكامل داخلياً</span>
-        </div>
     </div>
 
     <main class="workspace-viewport">
-        <div id="outputPrintContainer" class="a4-document-sheet">
-            <div class="placeholder-notice">
-                <p>يرجى إدخال البيانات والضغط على "توليد وبناء النظام التعليمي" لبدء المعالجة المنطقية.</p>
+        <div class="a4-document-sheet" id="printSheet">
+            
+            <div class="academic-header">
+                <div class="header-flex-row">
+                    <div><strong>المادة:</strong> <span id="outSubject">الرياضيات</span></div>
+                    <div><strong>الصف الدراسي:</strong> <span id="outGrade">الصف الأول الأساسي</span></div>
+                </div>
+                <div class="header-flex-row">
+                    <div><strong>عنوان الدرس:</strong> <span id="outTopic">مفهوم الطرح ضمن العدد ١٠</span></div>
+                    <div><strong>دليل المرحلة:</strong> <span id="outTier">المرحلة الأساسية الدنيا (حسي وملموس)</span></div>
+                </div>
             </div>
+
+            <div class="academic-section" id="sec١">
+                <h2>[١] أهداف الدرس السلوكية</h2>
+                <div class="content-area" id="outObjectives"></div>
+            </div>
+
+            <div class="academic-section" id="sec٢">
+                <h2>[٢] التمهيد والتهيئة الحافزة</h2>
+                <div class="content-area" id="outIntro"></div>
+            </div>
+
+            <div class="academic-section" id="sec٣">
+                <h2>[٣] الشرح المتدرج ومسار التعلّم</h2>
+                <div class="content-area" id="outPath"></div>
+            </div>
+
+            <div class="academic-section" id="sec٤">
+                <h2>[٤] الأنشطة التعليمية المتكاملة</h2>
+                <div class="content-area" id="outActivities"></div>
+            </div>
+
+            <div class="academic-section" id="sec٥">
+                <h2>[٥] التقويم متعدد المستويات</h2>
+                <div class="content-area" id="outEval"></div>
+            </div>
+
         </div>
     </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const compileBtn = document.getElementById('btnCompile');
-            if (compileBtn) {
-                const triggerCompilation = function(e) {
-                    e.preventDefault();
-                    const subject = document.getElementById('inputSubject').value.trim();
-                    const grade = parseInt(document.getElementById('inputGrade').value);
-                    const topic = document.getElementById('inputTopic').value.trim();
-                    
-                    if(!subject || !topic) {
-                        alert("يرجى ملء جميع حقول الإدخال لتشغيل المحرك الذكي.");
-                        return;
-                    }
-                    executeDecisionLogicEngine(subject, grade, topic);
-                };
+        document.getElementById('btnCompile').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // قراءة البيانات من المدخلات
+            const subject = document.getElementById('inputSubject').value;
+            const gradeText = document.getElementById('inputGrade').value;
+            const topic = document.getElementById('inputTopic').value;
 
-                compileBtn.addEventListener('click', triggerCompilation);
-                compileBtn.addEventListener('touchstart', triggerCompilation, {passive: false});
+            // تحديث الترويسة الأكاديمية فوراً عبر الـ DOM المباشر لإنهاء التجمد
+            document.getElementById('outSubject').innerText = subject;
+            document.getElementById('outGrade').innerText = gradeText;
+            document.getElementById('outTopic').innerText = topic;
+
+            // تفعيل منطق المحسوس ثم شبه المحسوس ثم المجرد بناءً على معايير المناهج الفلسطينية
+            document.getElementById('outObjectives').innerHTML = "• أن يستنتج التلميذ مفهوم (" + topic + ") باستخدام الوسائل والأشكال الحسية المتوفرة بدقة.<br>• أن يمثل التلميذ القيمة الرياضية لـ (" + topic + ") بالرسم البصري المبسط.";
+            
+            document.getElementById('outIntro').innerText = "ندخل إلى الغرفة الصفية وفي جعبتنا سلة من المحسوسات (ألعاب أو حبات فاكهة). نسأل الطلاب: إذا كان معنا مجموعة من العناصر وقمنا بإخفاء جزء منها، كم يتبقى لدينا؟ نربط هذا المشهد الواقعي مباشرة بدرسنا: " + topic;
+            
+            document.getElementById('outPath').innerHTML = "<b>١. المسار المحسوس:</b> عرض ٥ مكعبات حقيقية أمام الطلاب، ثم شطب وسحب مكعبين ليلاحظ الطفل التغير المادي الملموس.<br><b>٢. المسار شبه المحسوس:</b> رسم ٥ دوائر متجاورة على السبورة وتكليف أحد الطلاب بشطب دائرتين باستخدام القلم بصرياً.<br><b>٣. المسار المجرد:</b> صياغة العملية الحسابية الصرفة باستخدام الرموز الجافة وتثبيتها: ٥ - ٢ = ٣.";
+            
+            document.getElementById('outActivities').innerHTML = "<b>• نشاط فردي ذاتي:</b> يقوم كل طالب داخل مقعده بمحاولة حل المسألة التعليمية التطبيقية الأولى في صمت لتقييم الاستيعاب الفردي.<br><b>• نشاط جماعي تعاوني:</b> العمل في مجموعات رباعية متجانسة لحل بطاقة تشتمل على لغز أو مسألة حياتية لـ " + topic;
+            
+            document.getElementById('outEval').innerHTML = "<b>المستوى الأول (مباشر):</b> باستخدام الرسم المجاور، اشطب ٣ عناصر واكتب الباقي.<br><b>المستوى الثاني (تطبيقي):</b> مع أحمد ٧ أقلام تلوين، أعطى شقيقته ٤ أقلام. كم قلمين بقي معه؟<br><b>المستوى الثالث (تفكير ناقد):</b> صندوق يحتوي على كرات، أضفنا إليها ٢ فأصبح المجموع ٦، فكم كرة كانت فيه بالبداية؟";
+
+            // إظهار كافة الأقسام الأكاديمية بعد حقن البيانات النظيفة فيها
+            for (let i = ١; i <= ٥; i++) {
+                document.getElementById('sec' + i).style.display = 'block';
             }
         });
-
-        function executeDecisionLogicEngine(subject, grade, topic) {
-            const container = document.getElementById('outputPrintContainer');
-            container.innerHTML = "";
-
-            let pedagogicalTier = "";
-            let cognitiveTarget = "";
-            
-            if (grade >= 1 && grade <= 3) {
-                pedagogicalTier = "المرحلة الأساسية الدنيا (حسي وملموس)";
-                cognitiveTarget = "التدرج الانتقالي: من المحسوس (الرسم البصري) إلى شبه المحسوس (المسائل اللفظية المبسطة) وصولاً إلى المجرد (الرموز).";
-            } else if (grade >= 4 && grade <= 6) {
-                pedagogicalTier = "المرحلة الأساسية المتوسطة (مفاهيمي وتطبيقي)";
-                cognitiveTarget = "التركيز على النمذجة المفاهيمية والمقارنة والربط المباشر بالسياقات الحياتية والبيئية المحيطة بالمتعلم.";
-            } else {
-                pedagogicalTier = "المرحلة الأساسية العليا (تحليلي واستنتاجي)";
-                cognitiveTarget = "استهدف مهارات التفكير العليا والتفكيك المنطقي والاستنتاج القائم على حل المشكلات المعقدة.";
-            }
-
-            const smartObjectives = generateAdaptiveObjectives(subject, grade, topic);
-            const lessonIntroduction = generateAdaptiveIntroduction(subject, grade, topic);
-            const learningPath = generateScaffoldedPath(subject, grade, topic);
-            const interactiveActivities = generateAdaptiveActivities(subject, grade, topic);
-            const structuredEvaluation = generateMultiLevelEvaluation(subject, grade, topic);
-            const homework = generateAlignedHomework(subject, grade, topic);
-
-            let htmlBlueprint = `
-                <div class="academic-header">
-                    <div class="header-flex-row">
-                        <div><strong>المادة:</strong> \${enforceEasternArabicNumerals(subject)}</div>
-                        <div><strong>الصف الدراسي:</strong> \${enforceEasternArabicNumerals(getGradeText(grade))}</div>
-                    </div>
-                    <div class="header-flex-row">
-                        <div><strong>عنوان الدرس:</strong> \${enforceEasternArabicNumerals(topic)}</div>
-                        <div><strong>المستوى المعرفي الحاكم:</strong> \${pedagogicalTier}</div>
-                    </div>
-                </div>
-
-                <div class="academic-section">
-                    <h2>[١] أهداف الدرس السلوكية (SMART Objectives)</h2>
-                    <ul class="objective-list">
-                        \${smartObjectives.map(obj => `<li>• \${enforceEasternArabicNumerals(obj)}</li>`).join('')}
-                    </ul>
-                </div>
-
-                <div class="academic-section">
-                    <h2>[٢] التمهيد والتهيئة الحافزة (Introduction)</h2>
-                    <p>\${enforceEasternArabicNumerals(lessonIntroduction)}</p>
-                </div>
-
-                <div class="academic-section">
-                    <h2>[٣] الشرح المتدرج ومسار التعلّم (Scaffolded Learning Path)</h2>
-                    <div class="activity-box">
-                        <p><strong>المصفوفة الإرشادية للمدرس:</strong> \${cognitiveTarget}</p>
-                        <div style="margin-top: 10px;">\${enforceEasternArabicNumerals(learningPath)}</div>
-                    </div>
-                </div>
-
-                <div class="academic-section">
-                    <h2>[٤] الأنشطة التعليمية المتكاملة (Integrated Activities)</h2>
-                    \${interactiveActivities.map(act => `
-                        <div class="activity-card">
-                            <strong>نمط النشاط:</strong> \${act.type}<br>
-                            <strong>الإجراء التنفيذي:</strong> \${enforceEasternArabicNumerals(act.body)}
-                        </div>
-                    `).join('')}
-                </div>
-
-                <div class="academic-section">
-                    <h2>[٥] التقويم متعدد المستويات (Multi-Level Evaluation)</h2>
-                    <div class="evaluation-item"><strong>المستوى الأول (مباشر/بسيط):</strong><br> \${enforceEasternArabicNumerals(structuredEvaluation.easy)}</div>
-                    <div class="evaluation-item" style="margin-top:10px;"><strong>المستوى الثاني (متوسط/تطبيقي):</strong><br> \${enforceEasternArabicNumerals(structuredEvaluation.medium)}</div>
-                    <div class="evaluation-item" style="margin-top:10px;"><strong>المستوى الثالث (تفكير ناقد/عميق):</strong><br> \${enforceEasternArabicNumerals(structuredEvaluation.hard)}</div>
-                </div>
-
-                <div class="academic-section">
-                    <h2>[٦] الواجب المنزلي المرتبط بالأهداف (Aligned Homework)</h2>
-                    <p>\${enforceEasternArabicNumerals(homework)}</p>
-                </div>
-            `;
-
-            container.innerHTML = htmlBlueprint;
-        }
-
-        function generateAdaptiveObjectives(subject, grade, topic) {
-            if (grade <= 3) {
-                return [
-                    `أن يستنتج التلميذ مفهوم (\${topic}) باستخدام الوسائل والأشكال الحسية المتوفرة بدقة وبشكل صحيح.`,
-                    `أن يمثل التلميذ القيمة الرياضية أو المفهوم العلمي لـ (\${topic}) بالرسم المبسط دون أخطاء.`
-                ];
-            } else if (grade <= 6) {
-                return [
-                    `أن يشرح المتعلم القاعدة الأساسية المتحكمة في (\${topic}) بلغة علمية سليمة بعد تفحص الأمثلة الحياتية.`,
-                    `أن يطبق المتعلم خطوات حل المسائل المرتبطة بـ (\${topic}) في سياقات جديدة ومألوفة بنسبة نجاح لا تقل عن ٩٠%.`
-                ];
-            } else {
-                return [
-                    `أن يحلل المتعلم العلاقة المتبادلة بين مفاهيم (\${topic}) والمعطيات الرياضية أو الفيزيائية المجاورة لها بدقة وفهم عميق.`,
-                    `أن يبتكر المتعلم نموذجاً أو حلاً برهنياً لمشكلة تشتمل على مسائل مركبة لـ (\${topic}) بأسلوب علمي رصين.`
-                ];
-            }
-        }
-
-        function generateAdaptiveIntroduction(subject, grade, topic) {
-            if (grade <= 3) {
-                return `ندخل إلى الغرفة الصفية وفي جعبتنا سلة من الألعاب أو حبات الفاكهة المحسوسة. نسأل الطلاب: إذا كان معنا مجموعة من العناصر وقمنا بإخفاء جزء منها، كم يتبقى لدينا؟ نربط هذا المشهد الواقعي مباشرة بعنوان درسنا اليوم: \${topic}.`;
-            } else if (grade <= 6) {
-                return `بدء الدرس من خلال عرض ظاهرة حياتية مألوفة للطلاب (كحساب تكاليف رحلة أو توزيع مهام). نطرح تساؤلاً محورياً يدفع الطلاب للبحث عن الأداة الرياضية أو المفهوم العلمي المناسب لترجمة هذه الظاهرة، وهو ما يقودنا إلى: \${topic}.`;
-            } else {
-                return `نبدأ بمسألة مفتوحة ذات نهايات متعددة أو مفارقة علمية/رياضية تتحدى البنية المعرفية الحالية للطلاب. نطلب منهم تفكيك عناصر المشكلة وصياغة فرضيات أولية، لنكتشف معاً أن مفتاح الحل الجذري يكمن في سبر أغوار \${topic}.`;
-            }
-        }
-
-        function generateScaffoldedPath(subject, grade, topic) {
-            if (grade <= 3) {
-                return `<b>الخطوة ١ (المحسوس):</b> عرض ٥ مكعبات حقيقية أمام النظر، ثم سحب مكعبين وشطبها بصرياً ليلاحظ الطفل التغير المادي.<br><b>الخطوة ٢ (شبه المحسوس):</b> رسم ٥ دوائر على السبورة وطلب من الطلاب شطب دائرتين باستخدام القلم.<br><b>الخطوة ٣ (المجرد):</b> كتابة المسألة الرياضية باستخدام الرموز الصرفة لتثبيت الاستنتاج المعرفي.`;
-            } else if (grade <= 6) {
-                return `<b>المرحلة الأولى:</b> مراجعة المتطلبات الأساسية السابقة وربطها بالمفهوم الجديد.<br><b>المرحلة الثانية:</b> صياغة التعريف الرياضي/العلمي لـ (\${topic}) وبناء جدول مقارنة يعزل الخصائص الثابتة عن المتغيرة.<br><b>المرحلة الثالثة:</b> حل مثال نموذجي مشترك على السبورة مع تدوين خطوات خوارزمية الحل بوضوح وبترتيب متتابع.`;
-            } else {
-                return `<b>التفكيك الهيكلي:</b> وضع الإطار النظري الكلي للمفهوم، ثم تكليف الطلاب باستنباط العلاقات الداخلية.<br><b>النمذجة الرياضية العميقة:</b> تحويل الأفكار التحليلية الصعبة إلى معادلات وصيغ برهانية صلبة والتحقق من صحة الفرضيات عبر مناقشة جماعية يقودها الطلاب أنفسهم.`;
-            }
-        }
-
-        function generateAdaptiveActivities(subject, grade, topic) {
-            return [
-                { type: "نشاط فردي ذاتي", body: `يقوم كل طالب داخل مقعده بمحاولة حل المسألة التعليمية التطبيقية الأولى لـ (\${topic}) في صمت، لتقييم مستوى الاستيعاب الفردي الأولي.` },
-                { type: "نشاط جماعي تعاوني", body: `التعاون في مجموعات رباعية متجانسة لحل بطاقة تشتمل على لغز أو مسألة حياتية تتطلب دمج مهارات التفكير لتطبيق المفهوم المستهدف لـ (\${topic}).` }
-            ];
-        }
-
-        function generateMultiLevelEvaluation(subject, grade, topic) {
-            if (grade <= 3) {
-                return {
-                    easy: `باستخدام الرسم المجاور، اشطب ٣ عناصر واكتب عدد العناصر المتبقية في الصندوق الفراغي المخصص.`,
-                    medium: `مسألة لفظية قصيرة: مع أحمد ٧ أقلام تلوين، أعطى شقيقته ٤ أقلام. كم قلمين بقي مع أحمد الآن؟`,
-                    hard: `إذا علمت أن الصندوق المفتوح يحتوي على عدد من الكرات، وأضفنا إليها ٢ فأصبح المجموع ٦، فكم كرة كانت داخل الصندوق منذ البداية؟`
-                };
-            } else if (grade <= 6) {
-                return {
-                    easy: `أوجد الناتج المباشر والنهائي للمسألة الحسابية أو العلمية الموضحة في النموذج رقم ١ لدرس (\${topic}).`,
-                    medium: `قارن بين الحالة 'أ' والحالة 'ب' في التطبيق المرفق، مستخرجاً الفروقات الجوهرية بناءً على ما تعلمته اليوم في (\${topic}).`,
-                    hard: `اكتشف الخطأ الرياضي/العلمي في الحل المقترح من قبل أحد الطلاب في الورقة الخارجية، وقم بتصحيحه معللاً ذلك بالقاعدة العلمية.`
-                };
-            } else {
-                return {
-                    easy: `عرف بدقة وبصياغة علمية رصينة المفهوم الجوهري الحاكم لـ (\${topic}) مع ذكر محدداته الأساسية.`,
-                    medium: `علل منطقياً وبناءً على البراهين الرياضية سبب تحول المخرجات عند قيامنا بتغيير المعاملات الأساسية في مسألة (\${topic}).`,
-                    hard: `برهن صحة الفرضية القائلة بأن كافة مخرجات النظام تتناسب عكسياً مع المتغيرات المستقلة في المسائل المركبة لـ (\${topic}).`
-                };
-            }
-        }
-
-        function generateAlignedHomework(subject, grade, topic) {
-            return `حل المسائل رقم ١، ورقم ٢، ورقم ٣ في صفحة التدريبات العامة داخل الكتاب المدرسي المقر، مع التركيز على تدوين ورسم خطوات التفكير والحل بالكامل في الدفتر الخاص بالواجبات البيتيّة.`;
-        }
-
-        function getGradeText(grade) {
-            const gradesMap = {
-                1: "الصف الأول الأساسي",
-                2: "الصف الثاني الأساسي",
-                3: "الصف الثالث الأساسي",
-                5: "الصف الخامس الأساسي",
-                8: "الصف الثامن الأساسي"
-            };
-            return gradesMap[grade] || `الصف \${grade} الدراسي`;
-        }
-
-        function enforceEasternArabicNumerals(str) {
-            if(typeof str !== 'string') str = String(str);
-            const easternDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-            return str.replace(/[0-9]/g, function(w) {
-                return easternDigits[+w];
-            });
-        }
     </script>
 </body>
 </html>
