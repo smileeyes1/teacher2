@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>المنصة التعليمية الذكية - AEIC</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- لوحة التحكم الإدارية (تختفي تلقائياً عند الطباعة) -->
+    <div class="sidebar-matrix" id="adminSidebar">
+        <div class="sidebar-header">
+            <h3>محرك التوليد الذكي (AEIC)</h3>
+            <span class="version-tag">إصدار ٢٠٢٦</span>
+        </div>
+        
+        <div class="control-group">
+            <label>المادة الدراسية</label>
+            <input type="text" id="inputSubject" value="الرياضيات" placeholder="مثال: الرياضيات، العلوم...">
+        </div>
+
+        <div class="control-group">
+            <label>الصف الدراسي</label>
+            <select id="inputGrade">
+                <option value="1">الصف الأول الأساسي</option>
+                <option value="2">الصف الثاني الأساسي</option>
+                <option value="3">الصف الثالث الأساسي</option>
+                <option value="5">الصف الخامس الأساسي</option>
+                <option value="8">الصف الثامن الأساسي</option>
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label>موضوع الدرس</label>
+            <input type="text" id="inputTopic" value="مفهوم الطرح ضمن العدد ١٠" placeholder="أدخل العنوان الدقيق للدرس">
+        </div>
+
+        <button class="btn-compile" id="btnCompile">توليد وبناء النظام التعليمي ⚙️</button>
+        <button class="btn-print" id="btnPrint" onclick="window.print()">طباعة المادة المخرجة 🖨️</button>
+        
+        <div class="system-status">
+            <span class="status-indicator"></span>
+            <span id="statusText">النظام جاهز للعمل محلياً (Offline)</span>
+        </div>
+    </div>
+
+    <!-- مساحة العرض والمعاينة للمتن الأكاديمي -->
+    <main class="workspace-viewport">
+        <div id="outputPrintContainer" class="a4-document-sheet">
+            <div class="placeholder-notice">
+                <p>يرجى إدخال البيانات والضغط على "توليد وبناء النظام التعليمي" لبدء المعالجة المنطقية.</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
