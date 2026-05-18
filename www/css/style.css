@@ -1,46 +1,62 @@
+/* ==================================================================
+   [1] الهوية البصرية ونظام الألوان الحاكمة للأكواد (Slate & Emerald)
+   ================================================================== */
 :root {
-    --primary-color: #2c3e50;
-    --accent-color: #2980b9;
-    --bg-sidebar: #1a252f;
-    --text-light: #ecf0f1;
-    --border-color: #bdc3c7;
-    --a4-width: 210mm;
+    --primary-emerald: #059669;
+    --primary-emerald-hover: #047857;
+    --primary-blue: #2563eb;
+    --primary-blue-hover: #1d4ed8;
+    --dark-slate-base: #0f172a;
+    --dark-slate-sidebar: #1e293b;
+    --ui-border-color: #334155;
+    --workspace-bg: #cbd5e1;
+    --document-surface: #ffffff;
+    
+    /* معايير أبعاد ورقة الطباعة العالمية القياسية */
+    --a4-standard-width: 210mm;
+    --standard-border-radius: 8px;
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    -webkit-tap-highlight-color: transparent; /* تحسين استجابة اللمس على أجهزة أندرويد */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
-    background-color: #f5f7fa;
+    background-color: var(--workspace-bg);
+    color: var(--dark-slate-base);
+    height: 100vh;
     display: flex;
-    flex-direction: row; /* افتراضي للشاشات الواسعة */
-    min-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
+#system-grid-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* لوحة التحكم الجانبية المعزولة برمجياً للمعلم والمطور */
 .sidebar-matrix {
-    width: 320px;
-    min-width: 320px;
-    background-color: var(--bg-sidebar);
-    color: var(--text-light);
+    width: 360px;
+    min-width: 360px;
+    background-color: var(--dark-slate-sidebar);
+    color: #f8fafc;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    border-left: 2px solid #2c3e50;
-    z-index: 100;
+    gap: 14px;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
     overflow-y: auto;
+    border-left: 1px solid var(--ui-border-color);
 }
 
 .sidebar-header h3 {
-    font-size: 1.1rem;
     color: #3498db;
-    margin-bottom: 5px;
+    font-size: 1.1rem;
+    font-weight: 800;
 }
 
 .version-tag {
@@ -50,173 +66,159 @@ body {
     border-radius: 4px;
 }
 
-.control-group {
+.control-card-module {
+    background-color: var(--dark-slate-base);
+    padding: 12px;
+    border-radius: var(--standard-border-radius);
+    border: 1px solid var(--ui-border-color);
+    margin-bottom: 4px;
+}
+
+.control-card-module h4 {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--ui-border-color);
+    padding-bottom: 4px;
+}
+
+.control-field {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
+    margin-bottom: 8px;
 }
 
-.control-group label {
-    font-size: 0.9rem;
-    color: #95a5a6;
+.control-field label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 600;
 }
 
-.control-group input, .control-group select {
-    padding: 12px;
-    border: 1px solid #34495e;
-    border-radius: 6px;
-    background: #2c3e50;
-    color: #fff;
-    font-size: 0.95rem;
+.control-field input, .control-field select, .control-field texture, .control-field textarea {
     width: 100%;
+    padding: 8px;
+    background-color: var(--dark-slate-sidebar);
+    border: 1px solid var(--ui-border-color);
+    color: #ffffff;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.control-field textarea {
+    height: 60px;
+    resize: none;
+    font-size: 0.8rem;
 }
 
 .btn-compile, .btn-print {
-    padding: 14px;
+    width: 100%;
+    padding: 10px;
     border: none;
     border-radius: 6px;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 0.9rem;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.2s;
-    width: 100%;
-    display: block;
+    margin-top: 5px;
 }
 
-.btn-compile { background-color: #27ae60; color: white; }
-.btn-compile:hover { background-color: #219653; }
-.btn-print { background-color: #2980b9; color: white; }
-.btn-print:hover { background-color: #2471a3; }
+.btn-compile { background-color: var(--primary-emerald); color: white; }
+.btn-compile:hover { background-color: var(--primary-emerald-hover); }
+.btn-print { background-color: var(--primary-blue); color: white; }
+.btn-print:hover { background-color: var(--primary-blue-hover); }
 
-.system-status {
-    margin-top: 10px;
+/* مؤشرات لوحة المتابعة التكيفية ومصفوفة التمكن */
+.mastery-status-box {
     display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.8rem;
-    color: #bdc3c7;
+    flex-direction: column;
+    gap: 6px;
 }
 
-.status-indicator {
-    width: 8px;
-    height: 8px;
-    background: #2ecc71;
-    border-radius: 50%;
-}
+.mastery-item { font-size: 0.75rem; color: #cbd5e1; }
+.progress-bar-container { width: 100%; height: 6px; background-color: var(--dark-slate-sidebar); border-radius: 3px; overflow: hidden; margin-top: 2px; }
+.progress-bar-fill { height: 100%; background-color: var(--primary-emerald); }
 
+.system-status { margin-top: auto; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: #bdc3c7; }
+.status-indicator { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; }
+
+/* ==================================================================
+   [2] بيئة هندسة وتصميم أوراق الطلاب الرسمية الموجهة للطباعة
+   ================================================================== */
 .workspace-viewport {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
     overflow-y: auto;
     display: flex;
     justify-content: center;
-    width: 100%;
+    align-items: flex-start;
 }
 
 .a4-document-sheet {
-    width: var(--a4-width);
+    width: var(--a4-standard-width);
     min-height: 297mm;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background-color: var(--document-surface);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     padding: 20mm;
-    position: relative;
-    color: #000;
+    color: #000000;
 }
 
-.placeholder-notice {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    color: #7f8c8d;
-    font-style: italic;
-    text-align: center;
-}
+.placeholder-notice { text-align: center; padding: 60px; color: #64748b; font-size: 1.1rem; border: 2px dashed #cbd5e1; border-radius: 6px; }
 
+/* الترويسة الأكاديمية بنظام Flexbox المعياري للطباعة المستقرة */
 .academic-header {
-    border: 2px solid #000;
-    padding: 15px;
-    margin-bottom: 25px;
+    border: 2px solid #000000;
+    padding: 12px;
+    margin-bottom: 24px;
+    background-color: #fbfbfb;
 }
 
 .header-flex-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 6px;
 }
 
-.academic-section {
-    margin-bottom: 25px;
+.header-flex-row:last-child { margin-bottom: 0; }
+
+/* بنية عرض محتوى الطالب النظيف والمميز */
+.student-clean-content-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.academic-section h2 {
-    font-size: 1.3rem;
-    border-bottom: 2px solid #000;
-    padding-bottom: 5px;
-    margin-bottom: 12px;
+/* كتل الأسئلة ومنع تفتيتها التلقائي بين الصفحات */
+.scaffold-question-block {
+    border-bottom: 1px dashed #cbd5e1;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+    break-inside: avoid;
 }
 
-.objective-list, .activity-box, .evaluation-item {
-    margin-right: 20px;
-    margin-top: 8px;
-    line-height: 1.6;
-}
+.scaffold-question-block:last-child { border-bottom: none; }
+.question-main-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; border-right: 4px solid #000000; padding-right: 8px; }
+.question-student-task { font-size: 1.1rem; line-height: 1.7; padding-right: 12px; }
 
-.activity-card {
-    border: 1px dashed #000;
-    padding: 12px;
-    margin-top: 10px;
-    background: #fafafa;
-}
+/* بطاقات التدرج المعرفي وخانات الإجابة ومربعات الرسم المخصصة للأطفال */
+.pedagogical-tier-card { border: 1px solid #000000; padding: 10px; margin-top: 8px; background-color: #fafafa; border-radius: 4px; }
+.tier-badge { font-weight: 800; font-size: 1rem; margin-bottom: 4px; text-decoration: underline; }
+.draw-canvas-placeholder { width: 100%; height: 100px; border: 1px dashed #7f8c8d; margin-top: 8px; background: #ffffff; }
+
+.question-options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+.option-box-item { border: 1px solid #000000; padding: 6px 10px; border-radius: 4px; }
+
+.student-answer-space { margin-top: 8px; font-weight: bold; }
+.blank-box { display: inline-block; width: 80px; height: 22px; border: 1px solid #000000; vertical-align: middle; margin: 0 5px; background: #fff; }
 
 /* ==================================================================
-   Media Queries: تحويل الواجهة لتدعم الهواتف والشاشات اللمسية بالكامل
+   [3] العزل الطباعي المعياري الصارم (إخفاء لوحة التحكم وتصفير الهوامش)
    ================================================================== */
-@media (max-width: 768px) {
-    body {
-        flex-direction: column; /* جعل لوحة التحكم بالأعلى والمستند بالأسفل */
-        overflow-y: auto;
-    }
-    
-    .sidebar-matrix {
-        width: 100%;
-        min-width: 100%;
-        border-left: none;
-        border-bottom: 3px solid #2c3e50;
-        overflow-y: visible;
-    }
-    
-    .workspace-viewport {
-        padding: 10px;
-        overflow-y: visible;
-    }
-    
-    .a4-document-sheet {
-        width: 100%; /* تمدد المستند ليناسب عرض شاشة الهاتف أثناء المعاينة */
-        min-height: auto;
-        padding: 15px;
-    }
-}
-
-/* محرك عزل واجهة التطبيق تماماً عند الطباعة المادية وحفظ تنسيق الـ A4 الثابت */
 @media print {
-    body {
-        background: white;
-        overflow: visible;
-        flex-direction: row;
-    }
-    .sidebar-matrix {
-        display: none !important;
-    }
-    .workspace-viewport {
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow: visible !important;
-    }
-    .a4-document-sheet {
-        box-shadow: none !important;
-        width: var(--a4-width) !important;
-        margin: 0 !important;
-        padding: 20mm !important;
-    }
+    body { background: #ffffff !important; overflow: visible !important; }
+    .sidebar-matrix { display: none !important; }
+    .workspace-viewport { padding: 0 !important; margin: 0 !important; overflow: visible !important; display: block !important; }
+    .a4-document-sheet { box-shadow: none !important; width: 100% !important; margin: 0 !important; padding: 0 !important; border: none !important; }
+    @page { size: A4; margin: 15mm 20mm 15mm 20mm; }
 }
