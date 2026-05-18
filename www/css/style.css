@@ -12,17 +12,20 @@
     margin: 0;
     padding: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    -webkit-tap-highlight-color: transparent; /* تحسين استجابة اللمس على أجهزة أندرويد */
 }
 
 body {
     background-color: #f5f7fa;
     display: flex;
+    flex-direction: row; /* افتراضي للشاشات الواسعة */
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .sidebar-matrix {
     width: 320px;
+    min-width: 320px;
     background-color: var(--bg-sidebar);
     color: var(--text-light);
     padding: 20px;
@@ -59,21 +62,25 @@ body {
 }
 
 .control-group input, .control-group select {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #34495e;
-    border-radius: 4px;
+    border-radius: 6px;
     background: #2c3e50;
     color: #fff;
     font-size: 0.95rem;
+    width: 100%;
 }
 
 .btn-compile, .btn-print {
-    padding: 12px;
+    padding: 14px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-weight: bold;
     cursor: pointer;
+    font-size: 1rem;
     transition: background 0.2s;
+    width: 100%;
+    display: block;
 }
 
 .btn-compile { background-color: #27ae60; color: white; }
@@ -82,7 +89,7 @@ body {
 .btn-print:hover { background-color: #2471a3; }
 
 .system-status {
-    margin-top: auto;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -99,10 +106,11 @@ body {
 
 .workspace-viewport {
     flex: 1;
-    padding: 40px 20px;
+    padding: 20px;
     overflow-y: auto;
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 .a4-document-sheet {
@@ -119,9 +127,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 200px;
     color: #7f8c8d;
     font-style: italic;
+    text-align: center;
 }
 
 .academic-header {
@@ -160,10 +169,41 @@ body {
     background: #fafafa;
 }
 
+/* ==================================================================
+   Media Queries: تحويل الواجهة لتدعم الهواتف والشاشات اللمسية بالكامل
+   ================================================================== */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* جعل لوحة التحكم بالأعلى والمستند بالأسفل */
+        overflow-y: auto;
+    }
+    
+    .sidebar-matrix {
+        width: 100%;
+        min-width: 100%;
+        border-left: none;
+        border-bottom: 3px solid #2c3e50;
+        overflow-y: visible;
+    }
+    
+    .workspace-viewport {
+        padding: 10px;
+        overflow-y: visible;
+    }
+    
+    .a4-document-sheet {
+        width: 100%; /* تمدد المستند ليناسب عرض شاشة الهاتف أثناء المعاينة */
+        min-height: auto;
+        padding: 15px;
+    }
+}
+
+/* محرك عزل واجهة التطبيق تماماً عند الطباعة المادية وحفظ تنسيق الـ A4 الثابت */
 @media print {
     body {
         background: white;
         overflow: visible;
+        flex-direction: row;
     }
     .sidebar-matrix {
         display: none !important;
@@ -175,8 +215,8 @@ body {
     }
     .a4-document-sheet {
         box-shadow: none !important;
-        width: 100% !important;
+        width: var(--a4-width) !important;
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 20mm !important;
     }
 }
